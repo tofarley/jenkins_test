@@ -1,9 +1,10 @@
 library 'magic-butler-catalogue'
 def PROJECT_NAME = 'jenkins-test'
+def TRIGGER_STRING = 'test this please'
 
 pipeline {
     triggers {
-        issueCommentTrigger('.*test this please.*')
+        issueCommentTrigger('test this please')
     }
     agent any
     stages {
