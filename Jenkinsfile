@@ -19,18 +19,11 @@ pipeline {
                     """
                     } else {
                         sh """
-                        echo $GITHUB_COMMENT
+                        echo "This is passing because we're on a fork"
                         exit 0
                     """
                     }
                 }
-            }
-        }
-        stage('TestBuild'){
-            steps {
-                sh """
-                    echo "it's building!"
-                """
             }
         }
         stage('Test') {
