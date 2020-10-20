@@ -38,6 +38,8 @@ pipeline {
                         } else {
                                 sh """
                                 echo "We are on a fork, but no comment has happened. quit!"
+                                echo $GITHUB_COMMENT
+                                echo $TRIGGER_STRING
                                 exit 1
                         """
                         }
