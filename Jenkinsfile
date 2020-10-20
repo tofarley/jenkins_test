@@ -26,20 +26,18 @@ pipeline {
         //         }
         //     }
         // }
-        stage('Test') {
+        stage('Validate') {
             //when { expression { !env.CHANGE_FORK || (env.GITHUB_COMMENT && env.GITHUB_COMMENT =~ env.TRIGGER_STRING) } }
             steps {
                 script {
                     if (env.CHANGE_FORK) {
-                        if (env.GITHUB_COMMENT && env.GITHUB_COMMENT =~ env.TRIGGER_STRING) {
+                        if (env.GITHUB_COMMENT && env.GITHUB_COMMENT.contains('test this please')) {
                             sh """
-                                echo "We are on a fork, and a comment has occured!"
+                                echo "We are on a fork, and a comment has occured! Continue!"
                         """
                         } else {
                                 sh """
                                 echo "We are on a fork, but no comment has happened. quit!"
-                                echo $GITHUB_COMMENT
-                                echo $TRIGGER_STRING
                                 exit 1
                         """
                         }
