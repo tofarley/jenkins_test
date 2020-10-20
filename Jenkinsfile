@@ -9,7 +9,7 @@ pipeline {
     agent any
     stages {
         stage('Validate') {
-            when { expression { env.CHANGE_FORK && (!env.GITHUB_COMMENT || (!env.GITHUB_COMMENT.contains('test this please') )) } }
+            when { expression { env.CHANGE_FORK && (!env.GITHUB_COMMENT || !(env.GITHUB_COMMENT.contains('test this please') )) } }
             steps {
                 sh """
                     echo "You're on a fork. Get outta here!"
