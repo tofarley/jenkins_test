@@ -38,7 +38,7 @@ pipeline {
                         sh """
                             echo "Runs when not on a fork, or when the comment happens"
                     """
-                    } else {
+                    } else if (!env.CHANGE_FORK) {
                         sh """
                             echo "We are on a fork, but no comment has happened. quit!"
                             exit 1
