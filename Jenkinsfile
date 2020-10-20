@@ -43,6 +43,10 @@ pipeline {
                             echo "We are on a fork, but no comment has happened. quit!"
                             exit 1
                         """
+                    } else {
+                        sh """
+                            echo "We are not on a fork so we can go ahead."
+                        """
                     }
                     def creds = readJSON file: CREDS_FILE
                     // Assumes the pipeline-e2e-creds format remains the same. Chase
