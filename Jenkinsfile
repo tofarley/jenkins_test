@@ -27,22 +27,33 @@ pipeline {
         //     }
         // }
         stage('Test') {
-            when { expression { !env.CHANGE_FORK || (env.GITHUB_COMMENT && env.GITHUB_COMMENT =~ env.TRIGGER_STRING) } }
+            //when { expression { !env.CHANGE_FORK || (env.GITHUB_COMMENT && env.GITHUB_COMMENT =~ env.TRIGGER_STRING) } }
             environment {
                 CREDS_FILE = credentials('pipeline-e2e-creds')
                 LOGDNA_HOST = "logs.use.stage.logdna.net"
             }
             steps {
                 script {
+                    if (env.GITHUB_COMMENT && env.GITHUB_COMMENT =~ env.TRIGGER_STRING) {
+                        sh """
+                            echo "Runs when not on a fork, or when the comment happens"
+                    """
+                    } else if (env.CHANGE_FORK) {
+                        sh """
+                            echo "We are on a fork, but no comment has happened. quit!"
+                            exit 1
+                        """
+                    } else {
+                        sh """
+                            echo "We are not on a fork so we can go ahead."
+                        """
+                    }
                     def creds = readJSON file: CREDS_FILE
                     // Assumes the pipeline-e2e-creds format remains the same. Chase
                     // refer to the e2e tests's README's authorization docs for the
                     // current structure
                     LOGDNA_INGESTION_KEY = creds["packet-stage"]["account"]["ingestionkey"]
                 }
-                sh """
-                    make test
-                """
             }
         }
         stage('Build') {
