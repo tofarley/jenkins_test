@@ -5,10 +5,11 @@ pipeline {
     triggers {
         issueCommentTrigger('.*test this please.*')
     }
+    def commentTrigger = currentBuild.rawBuild.getCause(org.jenkinsci.plugins.pipeline.github.trigger.IssueCommentCause)
     agent any
     stages {
         stage('Test') {
-            when { expression { !env.CHANGE_FORK } }
+            when { expression { !env.CHANGE_FORK || commentTrigger.comment.contains("test this please") } }
             environment {
                 CREDS_FILE = credentials('pipeline-e2e-creds')
                 LOGDNA_HOST = "logs.use.stage.logdna.net"
