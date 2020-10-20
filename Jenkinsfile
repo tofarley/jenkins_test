@@ -22,6 +22,7 @@ pipeline {
                 }
                 sh """
                     make test
+                    echo $CHANGE_FORK
                 """
             }
         }
