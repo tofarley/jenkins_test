@@ -1,5 +1,6 @@
 library 'magic-butler-catalogue'
 def PROJECT_NAME = 'jenkins-test'
+def commentTrigger = currentBuild.rawBuild.getCause(org.jenkinsci.plugins.pipeline.github.trigger.IssueCommentCause)
 
 pipeline {
     triggers {
@@ -8,7 +9,6 @@ pipeline {
     agent any
     stages {
         stage('Test') {
-            def commentTrigger = currentBuild.rawBuild.getCause(org.jenkinsci.plugins.pipeline.github.trigger.IssueCommentCause)
             when { expression { !env.CHANGE_FORK || commentTrigger.comment.contains("test this please") } }
             environment {
                 CREDS_FILE = credentials('pipeline-e2e-creds')
