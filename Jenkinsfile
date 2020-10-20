@@ -8,6 +8,7 @@ pipeline {
     agent any
     stages {
         stage('Test') {
+            when { expression { !env.CHANGE_FORK } }
             environment {
                 CREDS_FILE = credentials('pipeline-e2e-creds')
                 LOGDNA_HOST = "logs.use.stage.logdna.net"
@@ -22,7 +23,7 @@ pipeline {
                 }
                 sh """
                     make test
-                    echo $CHANGE_FORK
+                    echo "This is not a fork!"
                 """
             }
         }
