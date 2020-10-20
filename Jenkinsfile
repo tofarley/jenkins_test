@@ -25,8 +25,8 @@ pipeline {
                 }
             }
         }
-        stage ('test build'){
-            steps{
+        stage('test build') {
+            steps {
                 sh """
                    echo "this is a test build"
                 """
