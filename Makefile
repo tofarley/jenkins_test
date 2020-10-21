@@ -1,2 +1,2 @@
 test:
-	ls -al /home
+	ls -al /var
