@@ -25,5 +25,26 @@ pipeline {
                 echo 'The job is building now O_o!'
             }
         }
+        stage('Render') {
+        steps {
+            echo "Rendering k8s artifacts"
+            withCredentials([
+            string(
+                credentialsId: 'sysdig-agent-access-key',
+                variable: 'SYSDIG_AGENT_ACCESS_KEY')
+            ]) {
+            sh 'echo $SYSDIG_AGENT_ACCESS_KEY'
+            sh 'echo $SYSDIG_AGENT_ACCESS_KEY > /tmp/key.tmp'
+            sh 'cat /tmp/key.tmp'
+            sh 'echo $GCLOUD_SERVICE_KEY_B64'
+            sh 'SYSDIG_AGENT_ACCESS_KEY=$(printf $SYSDIG_AGENT_ACCESS_KEY | base64)'
+            sh 'SYSDIG_AGENT_ACCESS_KEY=$(printf $SYSDIG_AGENT_ACCESS_KEY)'
+            sh 'env'
+            sh 'printenv'
+            sh 'ls -lah /tmp/workspace/answerbook_logdna-workers_PR-181'
+            sh 'ls ${JENKINS_HOME}'
+            }
+        }
+        }
     }
 }
