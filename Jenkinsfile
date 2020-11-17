@@ -27,6 +27,7 @@ pipeline {
         }
         stage('Scanning Image') {
             steps {
+                sh 'docker pull ubuntu:latest'
                 sysdig engineCredentialsId: 'sysdig-secure-api-credentials', name: 'sysdig_secure_images', inlineScanning: true
             }
         }
