@@ -25,5 +25,10 @@ pipeline {
                 echo 'The job is building now O_o!'
             }
         }
+        stage('Scanning Image') {
+            steps {
+                sysdig engineCredentialsId: 'sysdig-secure-api-credentials', name: 'sysdig_secure_images', inlineScanning: true
+            }
+        }
     }
 }
